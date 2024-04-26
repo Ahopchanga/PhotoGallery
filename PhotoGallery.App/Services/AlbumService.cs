@@ -1,4 +1,5 @@
-﻿using PhotoGallery.App.Models;
+﻿using Microsoft.AspNetCore.Hosting;
+using PhotoGallery.App.Models;
 using PhotoGallery.Interfaces.Repositories;
 using PhotoGallery.Interfaces.Services;
 
@@ -7,14 +8,26 @@ namespace PhotoGallery.App.Services;
 public class AlbumService : IAlbumService<AlbumModel>
 {
     private readonly IAlbumRepository _albumRepository;
+    private readonly IWebHostEnvironment _environment;
 
-    public AlbumService(IAlbumRepository albumRepository)
+    public AlbumService(IAlbumRepository albumRepository, IWebHostEnvironment environment)
     {
         _albumRepository = albumRepository;
+        _environment = environment;
     }
     
     public async Task AddAsync(AlbumModel albumModel)
     {
+        // Ensuring the cover photo path exists
+        if (!string.IsNullOrEmpty(albumModel.CoverPhotoPath))
+        {
+            var path = Path.Combine(_environment.WebRootPath, albumModel.CoverPhotoPath);
+            if (!File.Exists(path))
+            {
+                throw new ArgumentException("Cover photo does not exist at the specified path");
+            }
+        }
+
         var albumEntity = AlbumModel.Map(albumModel);
         await _albumRepository.AddAsync(albumEntity);
     }

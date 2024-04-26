@@ -9,20 +9,30 @@ namespace PhotoGallery.App.Services;
 public class PhotoService: IPhotoService<PhotoModel>
 {
     private readonly IPhotoRepository _repository;
-    private readonly IAlbumRepository _albumRepository;
     private readonly IWebHostEnvironment _environment;
 
-    public PhotoService(IPhotoRepository repository, IAlbumRepository albumRepository, IWebHostEnvironment environment)
+    public PhotoService(IPhotoRepository repository, IWebHostEnvironment environment)
     {
         _repository = repository;
-        _albumRepository = albumRepository;
         _environment = environment;
     }
     
     public async Task AddAsync(PhotoModel model)
     {
-        var path = Path.Combine(_environment.WebRootPath, "images", model.ImageFile.FileName);
+        var fileName = Path.GetFileName(model.ImageFile.FileName);
+        if(fileName == null)
+            throw new ArgumentNullException("File name is empty.");
+        
+        // validate file name
+        if(fileName.Any(c => Path.GetInvalidFileNameChars().Contains(c)))
+            throw new ArgumentException("File name contains invalid characters.");
+        
+        var path = Path.Combine(_environment.WebRootPath, "images", fileName);
 
+        // check if file already exists
+        if(File.Exists(path))
+            throw new IOException($"A file with the name {fileName} already exists.");
+    
         await using (var fileStream = new FileStream(path, FileMode.Create))
         {
             await model.ImageFile.CopyToAsync(fileStream);
