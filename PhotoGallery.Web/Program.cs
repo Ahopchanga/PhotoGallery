@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PhotoGallery.App;
 using PhotoGallery.Data;
-using PhotoGallery.Web.Models;
+using PhotoGallery.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,17 +13,21 @@ builder.Services.AddDbContext<GalleryDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<GalleryDbContext>();
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, GalleryDbContext>();
+    .AddApiAuthorization<User, GalleryDbContext>();
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddRepositories(connectionString!);
+builder.Services.AddServices();
 
 var app = builder.Build();
 

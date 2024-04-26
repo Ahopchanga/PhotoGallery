@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGallery", "PhotoGaller
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGallery.Data", "PhotoGallery.Data\PhotoGallery.Data.csproj", "{DF54E445-8FC8-496C-B839-5919996E8239}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhotoGallery.App", "PhotoGallery.App\PhotoGallery.App.csproj", "{42B1CD4B-2760-4747-A56C-C6B97139A7DA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{DF54E445-8FC8-496C-B839-5919996E8239}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF54E445-8FC8-496C-B839-5919996E8239}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF54E445-8FC8-496C-B839-5919996E8239}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42B1CD4B-2760-4747-A56C-C6B97139A7DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42B1CD4B-2760-4747-A56C-C6B97139A7DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42B1CD4B-2760-4747-A56C-C6B97139A7DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42B1CD4B-2760-4747-A56C-C6B97139A7DA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

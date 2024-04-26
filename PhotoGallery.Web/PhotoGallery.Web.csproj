@@ -43,6 +43,7 @@
       <Folder Include="ClientApp\src\utils\" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\PhotoGallery.App\PhotoGallery.App.csproj" />
       <ProjectReference Include="..\PhotoGallery.Data\PhotoGallery.Data.csproj" />
     </ItemGroup>
 
