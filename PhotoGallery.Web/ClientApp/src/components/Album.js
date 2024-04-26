@@ -1,10 +1,31 @@
-import React from 'react';
+import React, { useEffect, useState } from "react";
+import { getAlbum, deleteAlbum } from "../api/AlbumApi.js";
 
-function Album({ album }) {
+function Album({ match }) {
+    const [album, setAlbum] = useState(null);
+
+    useEffect(() => {
+        getAlbum(match.params.id).then(response => {
+            console.log(response);
+            if (response && response.data) {
+                setAlbum(response.data);
+            }
+        });
+    }, [match.params.id]);
+
+    const handleDelete = () => {
+        deleteAlbum(album.id).then(() => {
+        });
+    }
+
     return (
         <div>
-            <h2>{album.title}</h2>
-            {/* //TODO */}
+            {album && (
+                <>
+                    <h1>{album.title}</h1>
+                    <button onClick={handleDelete}>Delete Album</button>
+                </>
+            )}
         </div>
     );
 }
