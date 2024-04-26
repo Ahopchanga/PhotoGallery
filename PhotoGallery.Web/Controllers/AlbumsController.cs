@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhotoGallery.App.Models;
 using PhotoGallery.Interfaces.Services;
 
@@ -36,6 +37,7 @@ public class AlbumsController : ControllerBase
         return Ok(albums);
     }
     
+    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAlbum(int id)
     {

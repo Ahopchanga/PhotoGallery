@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ public static class DependencyInjectionConfig
     {
         services.AddTransient<IAlbumService<AlbumModel>, AlbumService>();
         services.AddTransient<IPhotoService<PhotoModel>, PhotoService>();
-        services.AddTransient<IUserService, UserService>();
+        services.AddTransient<IUserService<UserModel>, UserService>();
         services.AddTransient<IAuthService, AuthService>();
         services.AddTransient<IJwtTokenGenerator, JwtTokenGenerator>();
 
@@ -42,6 +43,11 @@ public static class DependencyInjectionConfig
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
                 };
             });
+
+        services.AddAuthorization(options =>
+        {
+            options.AddPolicy("AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+        });
 
         return services;
     }

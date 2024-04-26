@@ -1,6 +1,9 @@
-﻿namespace PhotoGallery.Interfaces.Services;
+﻿using System.Security.Claims;
 
-public interface IJwtTokenGenerator
+namespace PhotoGallery.Interfaces.Services;
+
+public interface IJwtTokenGenerator 
 {
     string GenerateToken(string username);
+    string GenerateTokenWithClaims(IList<Claim> claims);
 }

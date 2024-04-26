@@ -35,4 +35,19 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+    public string GenerateTokenWithClaims(IList<Claim> claims)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])); 
+        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+        var token = new JwtSecurityToken(
+            issuer: _configuration["Jwt:Issuer"],
+            audience: _configuration["Jwt:Issuer"],
+            claims: claims,
+            expires: DateTime.Now.AddMinutes(30), // token will expire after 30 minutes
+            signingCredentials: creds);
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
 }

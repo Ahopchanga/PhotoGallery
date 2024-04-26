@@ -11,4 +11,8 @@ public interface IPhotoService<TModel> where TModel : IPhotoModel
     Task DeleteAsync(int Id);
     
     Task UpdateAsync(TModel model);
+
+    Task LikePhotoAsync(Guid photoId);
+
+    Task DislikePhotoAsync(Guid photoId);
 }

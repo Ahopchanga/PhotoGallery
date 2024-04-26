@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PhotoGallery.App.Models;
 using PhotoGallery.Interfaces.Services;
 
@@ -30,6 +31,7 @@ public class PhotosController : ControllerBase
         return Ok(photos);
     }
     
+    [Authorize(Policy = "AdminOnly")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeletePhoto(int id)
     {
@@ -42,5 +44,19 @@ public class PhotosController : ControllerBase
     {
         await _photoService.UpdateAsync(model);
         return Ok(new {message = "Photo updated"});
+    }
+    
+    [HttpPost("{photoId}/like")]
+    public async Task<IActionResult> LikePhoto(Guid photoId)
+    {
+        await _photoService.LikePhotoAsync(photoId);
+        return Ok(new { message = "Photo liked!" });
+    }
+    
+    [HttpPost("{photoId}/dislike")]
+    public async Task<IActionResult> DislikePhoto(Guid photoId)
+    {
+        await _photoService.DislikePhotoAsync(photoId);
+        return Ok(new { message = "Photo disliked!" });
     }
 }

@@ -52,4 +52,22 @@ public class PhotoService: IPhotoService<PhotoModel>
         var photo = PhotoModel.Map(model);
         await _repository.UpdateAsync(photo);
     }
+    
+    public async Task LikePhotoAsync(Guid photoId)
+    {
+        var photo = await _repository.GetByIdAsync(photoId);
+        if (photo == null) throw new KeyNotFoundException($"Photo with id {photoId} not found!");
+    
+        photo.LikeCount++;
+        await _repository.UpdateAsync(photo);
+    }
+
+    public async Task DislikePhotoAsync(Guid photoId)
+    {
+        var photo = await _repository.GetByIdAsync(photoId);
+        if (photo == null) throw new KeyNotFoundException($"Photo with id {photoId} not found!");
+    
+        photo.DislikeCount++;
+        await _repository.UpdateAsync(photo);
+    }
 }

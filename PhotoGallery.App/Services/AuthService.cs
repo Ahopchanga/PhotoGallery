@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using PhotoGallery.DTOs;
 using PhotoGallery.Entities;
 using PhotoGallery.Interfaces.Services;
@@ -38,7 +39,7 @@ public class AuthService : IAuthService
         await _signInManager.SignOutAsync();
     }
     
-    public async Task<string> Authenticate(string username, string password)
+    public async Task<string> Authenticate(string username, string password, IList<Claim> claims)
     {
         var result = await _signInManager.PasswordSignInAsync(username, password, isPersistent: false, lockoutOnFailure: false);
 
@@ -47,7 +48,7 @@ public class AuthService : IAuthService
             return null;
         }
 
-        var token = _tokenGenerator.GenerateToken(username);
+        var token = _tokenGenerator.GenerateTokenWithClaims(claims);
 
         return token;
     }

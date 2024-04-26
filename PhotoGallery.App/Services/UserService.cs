@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using PhotoGallery.DTOs;
+using PhotoGallery.App.Models;
 using PhotoGallery.Entities;
 using PhotoGallery.Interfaces.Services;
 
 namespace PhotoGallery.App.Services;
-
-public class UserService : IUserService
+public class UserService : IUserService<UserModel>
 {
     private readonly UserManager<User> _userManager;
 
@@ -14,36 +13,37 @@ public class UserService : IUserService
         _userManager = userManager;
     }
 
-    public async Task<bool> Add(UserDto userDto)
+    public async Task<bool> Add(UserModel userModel)
     {
-        var user = User.Map(userDto);
+        var user = UserModel.Map(userModel);
         var result = await _userManager.CreateAsync(user);
 
         return result.Succeeded;
     }
 
-    public async Task<UserDto> Get(string id)
+    public async Task<UserModel> Get(string id)
     {
         var user = await _userManager.FindByIdAsync(id);
 
-        return user == null ? null : User.Map(user);
+        return user == null ? null : UserModel.Map(user);
     }
 
-    public async Task<IEnumerable<UserDto>> GetAll()
+    public async Task<IEnumerable<UserModel>> GetAll()
     {
-        return _userManager.Users.AsEnumerable().Select(User.Map);
+        var users = _userManager.Users;
+        return users.AsEnumerable().Select(UserModel.Map);
     }
 
-    public async Task<bool> Update(UserDto userDto)
+    public async Task<bool> Update(UserModel userModel)
     {
-        var user = await _userManager.FindByIdAsync(userDto.UserId);
+        var user = await _userManager.FindByIdAsync(userModel.UserId);
         if (user == null)
         {
             return false;
         }
         
-        user.UserName = userDto.Username;
-        user.Role = userDto.Role;
+        user.UserName = userModel.Username;
+        user.Role = userModel.Role;
 
         var result = await _userManager.UpdateAsync(user);
 
