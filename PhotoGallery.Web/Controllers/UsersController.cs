@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PhotoGallery.App.Models;
-using PhotoGallery.App.Services;
-using PhotoGallery.DTOs;
 using PhotoGallery.Interfaces.Services;
 
 namespace PhotoGallery.Web.Controllers

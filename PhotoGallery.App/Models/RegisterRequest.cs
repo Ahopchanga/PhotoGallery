@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using PhotoGallery.DTOs;
 using PhotoGallery.Entities;
 
 namespace PhotoGallery.App.Models;

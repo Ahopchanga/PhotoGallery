@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using PhotoGallery.App.Models;
-using PhotoGallery.Entities;
 using PhotoGallery.Interfaces.Repositories;
 using PhotoGallery.Interfaces.Services;
 
