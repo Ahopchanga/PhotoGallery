@@ -1,4 +1,5 @@
-﻿using PhotoGallery.Entities;
+﻿using Microsoft.AspNetCore.Http;
+using PhotoGallery.Entities;
 using PhotoGallery.Interfaces.Models;
 
 namespace PhotoGallery.App.Models;
@@ -13,6 +14,8 @@ public class PhotoModel : IPhotoModel
     public DateTime DateUploaded { get; set; }
     public int LikeCount { get; set; }
     public int DislikeCount { get; set; }
+    
+    public IFormFile ImageFile { get; set; }
     
     public static PhotoModel Map(Photo photo)
     {

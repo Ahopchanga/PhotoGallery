@@ -17,11 +17,11 @@ public class PhotosController : ControllerBase
     }
     
     [HttpPost]
-    public async Task<IActionResult> AddPhoto(PhotoModel model)
+    public async Task<IActionResult> AddPhoto(PhotoModel model) 
     {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
         await _photoService.AddAsync(model);
-        return Ok(new {message = "Photo added"});
-        
+        return Ok(new { message = "Photo added successfully" });
     }
     
     [HttpGet("/album/{albumId}")]

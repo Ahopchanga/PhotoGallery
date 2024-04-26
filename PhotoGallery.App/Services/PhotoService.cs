@@ -1,4 +1,6 @@
-﻿using PhotoGallery.App.Models;
+﻿using Microsoft.AspNetCore.Hosting;
+using PhotoGallery.App.Models;
+using PhotoGallery.Entities;
 using PhotoGallery.Interfaces.Repositories;
 using PhotoGallery.Interfaces.Services;
 
@@ -8,28 +10,28 @@ public class PhotoService: IPhotoService<PhotoModel>
 {
     private readonly IPhotoRepository _repository;
     private readonly IAlbumRepository _albumRepository;
+    private readonly IWebHostEnvironment _environment;
 
-    public PhotoService(IPhotoRepository repository, IAlbumRepository albumRepository)
+    public PhotoService(IPhotoRepository repository, IAlbumRepository albumRepository, IWebHostEnvironment environment)
     {
         _repository = repository;
         _albumRepository = albumRepository;
+        _environment = environment;
     }
     
     public async Task AddAsync(PhotoModel model)
     {
-        var photo = PhotoModel.Map(model);
-        if (photo.AlbumId == 0)
+        var path = Path.Combine(_environment.WebRootPath, "images", model.ImageFile.FileName);
+
+        await using (var fileStream = new FileStream(path, FileMode.Create))
         {
-            throw new ArgumentException("Invalid album ID: 0");
-        }
-        
-        // Use GetByIdAsync to check album existence
-        var album = await _albumRepository.GetByIdAsync(photo.AlbumId);
-        if (album == null)
-        {
-            throw new InvalidOperationException($"Attempt to add a photo to a non-existent album with ID {photo.AlbumId}");
+            await model.ImageFile.CopyToAsync(fileStream);
         }
 
+        model.Path = "/images/" + model.ImageFile.FileName;
+
+        var photo = PhotoModel.Map(model);
+    
         await _repository.AddAsync(photo);
     }
 
