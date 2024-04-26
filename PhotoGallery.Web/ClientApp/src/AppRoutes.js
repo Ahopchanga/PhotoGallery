@@ -1,23 +1,20 @@
-import ApiAuthorzationRoutes from './components/api-authorization/ApiAuthorizationRoutes';
-import { Counter } from "./components/Counter";
-import { FetchData } from "./components/FetchData";
-import { Home } from "./components/Home";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './pages/Login';
+import AlbumsTable from './pages/AlbumsTable';
+import MyAlbums from './pages/MyAlbums';
+import AlbumView from './pages/AlbumView';
 
-const AppRoutes = [
-  {
-    index: true,
-    element: <Home />
-  },
-  {
-    path: '/counter',
-    element: <Counter />
-  },
-  {
-    path: '/fetch-data',
-    requireAuth: true,
-    element: <FetchData />
-  },
-  ...ApiAuthorzationRoutes
-];
+function App() {
+  return (
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/albums" element={<AlbumsTable />} />
+          <Route path="/my-albums" element={<MyAlbums />} />
+          <Route path="/album-view/:id" element={<AlbumView />} />
+        </Routes>
+      </Router>
+  );
+}
 
-export default AppRoutes;
+export default App;

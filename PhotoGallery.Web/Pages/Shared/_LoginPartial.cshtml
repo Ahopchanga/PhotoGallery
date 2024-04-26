@@ -1,7 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using PhotoGallery.Web.Models;
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using PhotoGallery.Entities
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@* ReSharper disable Mvc.AreaNotResolved *@
 
 @{
     string? returnUrl = null;
