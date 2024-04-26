@@ -1,23 +1,20 @@
-import React, { Component } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import AppRoutes from './AppRoutes';
-import AuthorizeRoute from './components/api-authorization/AuthorizeRoute';
-import { Layout } from './components/Layout';
-import './custom.css';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import AlbumsTable from './pages/AlbumsTable';
+import MyAlbums from './pages/MyAlbums';
+import AlbumView from './pages/AlbumView';
 
-export default class App extends Component {
-  static displayName = App.name;
-
-  render() {
+function App() {
     return (
-      <Layout>
-        <Routes>
-          {AppRoutes.map((route, index) => {
-            const { element, requireAuth, ...rest } = route;
-            return <Route key={index} {...rest} element={requireAuth ? <AuthorizeRoute {...rest} element={element} /> : element} />;
-          })}
-        </Routes>
-      </Layout>
+        <Router>
+            <Routes>
+                <Route path='/albums' element={<AlbumsTable />} />
+                <Route path='/my-albums' element={<MyAlbums />} />
+                <Route path='/album/:id' element={<AlbumView />} />
+                {/* TODO: Add NotFoundComponent for non-existing paths */}
+            </Routes>
+        </Router>
     );
-  }
 }
+
+export default App;
