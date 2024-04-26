@@ -12,7 +12,7 @@ using PhotoGallery.Data;
 namespace PhotoGallery.Data.Migrations
 {
     [DbContext(typeof(GalleryDbContext))]
-    [Migration("20240426084040_Initial")]
+    [Migration("20240426152348_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -310,6 +310,10 @@ namespace PhotoGallery.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AlbumId"));
+
+                    b.Property<string>("CoverPhotoPath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");

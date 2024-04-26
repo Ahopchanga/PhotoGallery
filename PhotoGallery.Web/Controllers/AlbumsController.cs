@@ -37,7 +37,7 @@ public class AlbumsController : ControllerBase
         return Ok(albums);
     }
     
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize] 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAlbum(int id)
     {

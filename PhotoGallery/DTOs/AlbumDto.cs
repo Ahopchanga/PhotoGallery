@@ -16,6 +16,8 @@ public class AlbumDto
 
     [StringLength(1000, ErrorMessage = "The description must be less than 1000 characters.")]
     public string Description { get; set; }
+    
+    public string CoverPhotoPath { get; set; }
 
     public DateTime DateCreated { get; set; }
 

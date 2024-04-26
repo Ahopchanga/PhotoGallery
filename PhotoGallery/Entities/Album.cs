@@ -9,7 +9,11 @@ public class Album : IEntity
     public string UserId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
+    
     public DateTime DateCreated { get; set; }
+    
+    public string CoverPhotoPath { get; set; }
+
     
     public virtual List<Photo> Photos { get; set; }
 
@@ -20,7 +24,8 @@ public class Album : IEntity
             AlbumId = album.AlbumId,
             UserId = album.UserId,
             Title = album.Title,
-            Description = album.Description
+            Description = album.Description,
+            CoverPhotoPath = album.CoverPhotoPath 
         };
     }
     
@@ -31,7 +36,8 @@ public class Album : IEntity
             AlbumId = album.AlbumId,
             UserId = album.UserId,
             Title = album.Title,
-            Description = album.Description
+            Description = album.Description,
+            CoverPhotoPath = album.CoverPhotoPath 
         };
     }
 }
