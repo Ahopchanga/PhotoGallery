@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using PhotoGallery.Data.Repository;
 using PhotoGallery.Interfaces.Repositories;
 
 namespace PhotoGallery.Data;
@@ -14,6 +15,9 @@ public static class DependencyInjectionConfig
             },
             ServiceLifetime.Transient
         );
+        
+        services.AddTransient<IAlbumRepository, AlbumRepository>();
+        services.AddTransient<IPhotoRepository, PhotoRepository>();
         
         return services;
     }

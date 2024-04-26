@@ -9,11 +9,13 @@ public class AuthService : IAuthService
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly IJwtTokenGenerator _tokenGenerator;
 
-    public AuthService(UserManager<User> userManager, SignInManager<User> signInManager)
+    public AuthService(UserManager<User> userManager, SignInManager<User> signInManager, IJwtTokenGenerator tokenGenerator)
     {
         _userManager = userManager;
         _signInManager = signInManager;
+        _tokenGenerator = tokenGenerator;
     }
 
     public async Task<IdentityResult> RegisterAsync(UserDto userDto, string password)
@@ -44,8 +46,8 @@ public class AuthService : IAuthService
         {
             return null;
         }
-        
-        const string token = "LoginToken";
+
+        var token = _tokenGenerator.GenerateToken(username);
 
         return token;
     }

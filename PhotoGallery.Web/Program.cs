@@ -28,6 +28,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddRepositories(connectionString!);
 builder.Services.AddServices();
+builder.Services.AddJwtAuthentication(builder.Configuration);
 
 var app = builder.Build();
 

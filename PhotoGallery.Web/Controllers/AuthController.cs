@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.UI.V4.Pages.Account.Internal;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PhotoGallery.App.Models;
 using PhotoGallery.Interfaces.Services;
 
@@ -19,7 +18,12 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequest request)
     {
-        var result = await _authService.RegisterAsync(request.User, request.Password);
+        if(!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _authService.RegisterAsync(Entities.User.Map(request.User), request.Password);
 
         if (result.Succeeded)
         {
@@ -32,6 +36,11 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequest request)
     {
+        if(!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+    
         var token = await _authService.Authenticate(request.Username, request.Password);
 
         if (!string.IsNullOrEmpty(token))
