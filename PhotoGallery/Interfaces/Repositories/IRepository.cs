@@ -10,5 +10,5 @@ public interface IRepository<TEntity, TId>
 
     Task UpdateAsync(TEntity entity);
     
-    Task<TEntity> GetByIdAsync(int TId);
+    Task<TEntity> GetByIdAsync(TId Id);
 }
